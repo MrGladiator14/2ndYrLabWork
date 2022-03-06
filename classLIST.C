@@ -1,77 +1,160 @@
 #include <bits/stdc++.h>
-#include <iostream>
 using namespace std;
-typedef struct list
+/*typedef struct LinkedList{
+ int data;
+    struct LinkedList*next;
+
+}LIST;*/
+class LIST
 {
     int data;
-    struct list *next;
-}node;
-class LIST{
-    node*front=NULL;
-    public:
-        
-        void create(int);
-        void insert(int);
-        void del();
-        void display();
-};
-void LIST:: create(int a){
-    front->data =a;
-    front->next=NULL;
-    cout<<"list created\n";
-}
+    class LIST *next;
+    class LIST *front;
 
-void LIST:: insert(int a){
-        if(front==NULL){
-{cout<<"create a lis\n";
-return;
-}
-        }
-        node*h=new node;
-        cout<<"enter data\t";
-        cin>>h->data;
-        h->next=NULL;
-            h->next=front;
-            front=h;
-        cout<<"insertion successful\n";}
-    
-void LIST:: del(){
-    if(front==NULL)
-    {cout<<"error\n";
-    return;}
-    int x=front->data;
-    node*d=front;
-    front=front->next;
-    delete d;
-    cout<<endl<< x<<" is deleted\n";
-        cout<<"deletion successful\n";
+public:
+    LIST()
+    {
 
-}
-void LIST:: display(){
-    node*p=front;
-    while(p->next!=NULL){
-        cout<<p->data<<"\t";
-        p=p->next;
+        front->data = 0;
+        front->next == NULL;
     }
+    void operator>>(LIST);
+    bool operator==(LIST);
+    LIST operator+(int);
+    LIST operator-(int);
+    LIST operator--(int);
+};
+LIST LIST::operator+(int n)
+{
+    LIST x;
+    LIST *k = (LIST *)malloc(sizeof(LIST));
+    k->data = n;
+    k->next = front;
+    front = k;
+    x.front = front;
+    free(k);
+    return x;
 }
-int main(){
-    LIST obj1;
-    LIST obj2;
-    obj1.create(1);
-    obj2.create(2);
-    obj1.insert(1);
-    obj2.insert(2);
-    obj1.insert(1);
-    obj2.insert(2);
-    obj1.insert(1);
-    obj2.insert(2);
-    obj1.insert(1);
-    obj2.insert(2);
-    obj1.display();
-    obj2.display();
-    obj1.del();
-    obj2.del();
-    obj1.display();
-    obj2.display();
-return 0;
+LIST LIST::operator-(int n)
+{
+    LIST x;
+    LIST *k, *q;
+    k = front;
+    if (k->data == n)
+    {
+        front = k->next; //@start
+        free(k);
+    }
+    else
+    {
+        while ((k != NULL) && (k->data != n))
+        {
+            q = k;
+            k = k->next;
+        }
+        if (k->data == n)
+        {
+            q->next = k->next;
+            free(k); //@ middle
+        }
+        else if (k == NULL)
+        {
+            cout << "\n\t No match :: Deletion failed \n\t";
+        }
+    }
+    return x;
+}
+bool LIST::operator==(LIST o)
+{
+    int c = 0;
+    LIST *k1, *k2;
+    k1 = front;
+    k2 = o.front;
+    while ((k1 != NULL) && (k2 != NULL))
+    {
+        if (k1->data != k2->data)
+        {
+            c++;
+            break;
+        }
+        else
+        {
+            k1 = k1->next;
+            k2 = k2->next;
+        }
+    }
+    if ((k1 == NULL) && (k2 == NULL) && (c == 0))
+        return true;
+    else
+        return false;
+}
+void LIST::operator>>(LIST)
+{
+    LIST *p;
+    p = front;
+    while (p != NULL)
+    {
+        cout << p->data << "\t";
+        p = p->next;
+    }
+    cout << endl;
+}
+LIST LIST::operator--(int k)
+{
+    LIST x;
+    LIST *p, *q, *r;
+    int c;
+    p = front;
+    x = x + p->data;
+    q = x.front;
+    q = q->next;
+    p = p->next;
+    while (p != NULL)
+    {
+        c = 0;
+        r = x.front;
+        while (r != NULL)
+        {
+            if (p->data == r->data)
+            {
+                c++;
+            }
+            r = r->next;
+        }
+        if (c == 0)
+        {
+            q->data = p->data;
+            q = q->next;
+        }
+        p = p->next;
+    }
+    q = NULL;
+    return x;
+}
+int main()
+{
+    LIST L1, L2;
+    L1 = L1 + 1;
+    L2 = L2 + 1;
+    L1 = L1 + 2;
+    L2 = L2 + 2;
+    L1 >> L1;
+    L2 >> L2;
+    if (L1 == L2)
+    {
+        cout << "Equivalent Lists\n";
+    }
+    else
+    {
+        cout << "Non-Equivalent Lists\n";
+    }
+    L1 = L1 + 1;
+    L2 = L2 + 1;
+    L1 >> L1;
+    L2 >> L2;
+    L2 = L2--;
+    L2 = L2 - 2;
+    L1 >> L1;
+    L2 >> L2;
+    return 0;
 }
